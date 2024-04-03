@@ -44,7 +44,7 @@ WL = dicomInfo.WindowCenter;
 %初期画像を表示
 currentImg = 1;
 hFig = figure(1);
-hIm = imagesc(img(:,:,currentImg), [(WL - round(WW / 2)) (WL + round(WW / 2))]);
+hIm = imagesc(img(:,:,currentImg));
 colormap(gray);
 axis image;
 colorbar;
@@ -60,6 +60,14 @@ while ishandle(hFig)
             currentImg = min(currentImg + 1, num_imges);
         case 'downarrow' 
             currentImg = max(currentImg - 1, 1);
+        case 'j'
+            WW = max(WW - 10, 2);
+        case 'l'
+            WW = WW + 10;
+        case 'i'
+            WL = WL + 10;
+        case 'm'
+            WL = WL - 10;
         case 'q'
             break;    
         otherwise
@@ -68,5 +76,6 @@ while ishandle(hFig)
     
     % 画像を更新して表示
     set(hIm, 'CData', img(:,:,currentImg));
+    caxis([WL - WW/2, WL + WW/2]);
     title(['Image ', num2str(currentImg)]);
 end
